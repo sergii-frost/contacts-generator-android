@@ -5,16 +5,6 @@
 	android:layout_width="match_parent"
 	android:layout_height="48dp">
 
-	<ImageView
-		android:id="@+id/countryFlagImageView"
-		android:layout_width="24dp"
-		android:layout_height="24dp"
-		android:layout_marginStart="8dp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		tools:src="@mipmap/ic_launcher" />
-
 	<TextView
 		android:id="@+id/countryNameTextView"
 		android:layout_width="wrap_content"
@@ -22,9 +12,9 @@
 		android:paddingStart="8dp"
 		android:paddingEnd="8dp"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintLeft_toRightOf="@+id/countryFlagImageView"
+		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
-		tools:text="SE" />
+		tools:text="Sweden" />
 
 	<TextView
 		android:id="@+id/countryContactsCountTextView"
