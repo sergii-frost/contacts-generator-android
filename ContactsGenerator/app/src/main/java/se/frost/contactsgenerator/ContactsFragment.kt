@@ -1,17 +1,14 @@
 package se.frost.contactsgenerator
 
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.telephony.PhoneNumberUtils
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.fragment_contacts.*
-import se.frost.contactsgenerator.extensions.toFlagEmoji
+import se.frost.contactsgenerator.helpers.ContactsHelper
 import smartadapter.SmartRecyclerAdapter
 import java.util.*
 
@@ -49,25 +46,9 @@ class ContactsFragment : Fragment() {
 	}
 
 	private fun updateWithData() {
-		countriesAdapter?.setItems(getCountryContacts(readContacts()))
+		countriesAdapter?.setItems(getCountryContacts(ContactsHelper.getAllContacts(context)))
 	}
 
-	private fun readContacts(): List<ContactModel> {
-		val contacts: ArrayList<ContactModel> = ArrayList()
-		context?.contentResolver?.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null)?.let {
-			while (it.moveToNext()) {
-				val name = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY))
-				val phoneNumber = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-
-				if (!TextUtils.isEmpty(phoneNumber)) {
-					contacts.add(ContactModel(name, phoneNumber))
-				}
-			}
-			it.close()
-		}
-
-		return contacts
-	}
 
 	private fun getCountryContacts(contacts: List<ContactModel>): List<CountryContacts> {
 		val phoneNumberUtil = PhoneNumberUtil.getInstance()
