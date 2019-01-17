@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ContactsGenerator</string>
+    <string name="contacts_permissions_disclaimer">OBS: This app needs permissions to read and write your contacts. Please use it on your own risk.\n
+        It is recommended to turn off sync with your accounts contacts in order to not lose them.</string>
+    <string name="button_allow_contacts_permissions">Allow access to contacts</string>
 </resources>
