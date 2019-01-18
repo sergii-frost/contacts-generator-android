@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract
 import android.text.TextUtils
-import se.frost.contactsgenerator.ContactModel
+import se.frost.contactsgenerator.models.ContactModel
 import java.util.*
 
 
