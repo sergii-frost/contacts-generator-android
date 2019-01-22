@@ -3,7 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="48dp">
+	android:layout_height="@dimen/list_item_height">
 
 	<TextView
 		android:id="@+id/countryNameTextView"
@@ -28,7 +28,7 @@
 
 	<View
 		android:layout_width="match_parent"
-		android:layout_height="1dp"
+		android:layout_height="@dimen/line_height_thin"
 		android:background="@color/gray"
 		app:layout_constraintBottom_toBottomOf="parent" />
 

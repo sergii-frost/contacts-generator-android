@@ -5,4 +5,13 @@
     <color name="colorAccent">#5DFF00</color>
 
     <color name="gray">#d8d8d8</color>
+
+    <color name="blackish">#4A4A4A</color>
+    <color name="darkGray">#898989</color>
+    <color name="darkerGray">#313131</color>
+    <color name="lightGray">#C8C7CD</color>
+
+    <!--Buttons colors-->
+    <color name="red_normal">#E3232D</color>
+    <color name="red_pressed">#A31018</color>
 </resources>
