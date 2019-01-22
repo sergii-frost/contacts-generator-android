@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import se.frost.contactsgenerator.helpers.ContactsHelper
@@ -45,7 +46,7 @@ class ContactsFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		initRecyclerView()
+		initUI()
 		updateWithData()
 	}
 
@@ -62,6 +63,20 @@ class ContactsFragment : Fragment() {
 	override fun onDetach() {
 		super.onDetach()
 		listener = null
+	}
+
+	private fun initUI() {
+		initButtons()
+		initRecyclerView()
+	}
+
+	private fun initButtons() {
+		addContactsButton.setOnClickListener {
+			Toast.makeText(context, "TBD: Add contacts", Toast.LENGTH_SHORT).show()
+		}
+		deleteContactsButton.setOnClickListener {
+			Toast.makeText(context, "TBD: Delete ALL contacts", Toast.LENGTH_SHORT).show()
+		}
 	}
 
 	private fun initRecyclerView() {
