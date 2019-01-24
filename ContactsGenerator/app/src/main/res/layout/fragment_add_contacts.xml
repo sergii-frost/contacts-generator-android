@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@android:color/white">
+
+	<Spinner
+		android:id="@+id/regionSpinner"
+		android:layout_width="0dp"
+		android:layout_height="@dimen/list_item_height"
+		app:layout_constraintEnd_toStartOf="@+id/amountSpinner"
+		app:layout_constraintHorizontal_chainStyle="spread"
+		app:layout_constraintHorizontal_weight="1"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<Spinner
+		android:id="@+id/amountSpinner"
+		android:layout_width="0dp"
+		android:layout_height="@dimen/list_item_height"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_chainStyle="spread"
+		app:layout_constraintHorizontal_weight="1"
+		app:layout_constraintStart_toEndOf="@+id/regionSpinner"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<android.support.constraint.Barrier
+		android:id="@+id/spinnersBarrier"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:barrierDirection="bottom"
+		app:constraint_referenced_ids="regionSpinner,amountSpinner" />
+
+	<Button
+		android:id="@+id/generateButton"
+		style="@style/RedButton"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/padding_m"
+		android:text="@string/button_generate_contacts"
+		app:layout_constraintEnd_toStartOf="@+id/addButton"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/spinnersBarrier" />
+
+	<Button
+		android:id="@+id/addButton"
+		style="@style/RedButton"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/padding_m"
+		android:text="@string/button_add_contacts"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/generateButton"
+		app:layout_constraintTop_toBottomOf="@+id/spinnersBarrier" />
+
+	<android.support.constraint.Barrier
+		android:id="@+id/buttonsBarrier"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:barrierDirection="bottom"
+		app:constraint_referenced_ids="generateButton,addButton" />
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/generatedContactsPreviewRecyclerView"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/buttonsBarrier" />
+
+</android.support.constraint.ConstraintLayout>

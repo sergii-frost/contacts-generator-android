@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity(), ContactsPermissionsFragment.OnFragment
 		showCountryContacts(model)
 	}
 
+	override fun addContacts() {
+		showAddContacts()
+	}
+
 	private fun initFragments() {
 		if (PermissionsHelper.instance.hasContactsPermissions(applicationContext)) {
 			showContactsUI()
@@ -41,6 +45,10 @@ class MainActivity : AppCompatActivity(), ContactsPermissionsFragment.OnFragment
 
 	private fun showCountryContacts(model: CountryContactsModel) {
 		initFragment(CountryContactsFragment.newInstance(model), CountryContactsFragment.TAG, FragmentTransition.FRAGMENT_ADD_TO_POP_STACK, R.id.content_frame)
+	}
+
+	private fun showAddContacts() {
+		initFragment(AddContactsFragment.newInstance(), AddContactsFragment.TAG, FragmentTransition.FRAGMENT_ADD_TO_POP_STACK, R.id.content_frame)
 	}
 
 }

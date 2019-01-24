@@ -22,6 +22,7 @@ class ContactsFragment : Fragment() {
 
 	interface OnFragmentInteractionListener {
 		fun openCountryContacts(model: CountryContactsModel)
+		fun addContacts()
 	}
 
 	private var countryContacts: List<CountryContactsModel> = ArrayList()
@@ -72,10 +73,10 @@ class ContactsFragment : Fragment() {
 
 	private fun initButtons() {
 		addContactsButton.setOnClickListener {
-			Toast.makeText(context, "TBD: Add contacts", Toast.LENGTH_SHORT).show()
+			listener?.addContacts()
 		}
 		deleteContactsButton.setOnClickListener {
-			Toast.makeText(context, "TBD: Delete ALL contacts", Toast.LENGTH_SHORT).show()
+			ContactsHelper.deleteAllContacts(context)
 		}
 	}
 
