@@ -23,6 +23,8 @@ object ContactsHelper {
 
 	private val CONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
 
+	private val GROUP_TITLE = "ContactsGenerator"
+
 	fun getAllContacts(context: Context?): List<ContactModel> {
 		val contacts: ArrayList<ContactModel> = ArrayList()
 		context?.contentResolver?.query(CONTENT_URI, PROJECTION, null, null, null)?.let {
@@ -64,8 +66,9 @@ object ContactsHelper {
 	}
 
 	fun addContacts(contacts: Array<ContactModel>, context: Context?) {
-		val ops = ArrayList<ContentProviderOperation>()
 		val contentResolver = context?.contentResolver ?: return
+		val ops = ArrayList<ContentProviderOperation>()
+		val groupId = getOrCreateContactsGroup(GROUP_TITLE, context) ?: return
 		contacts.forEach {
 			//First, insert new contact and get its contact id
 			val contentValues = ContentValues().apply {
@@ -74,20 +77,53 @@ object ContactsHelper {
 			}
 			val contactId = ContentUris.parseId(contentResolver.insert(ContactsContract.RawContacts.CONTENT_URI, contentValues))
 
-			//Now, update contact with name and phone number
+			//Now, update contact with name
 			ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
 					.withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
 					.withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
 					.withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, it.name)
 					.build())
 
+			//Now, update contact with phone number
 			ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
 					.withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
 					.withValue(ContactsContract.Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE)
 					.withValue(Phone.NUMBER, it.phone)
 					.withValue(Phone.TYPE, Phone.TYPE_MOBILE)
 					.build())
+
+			//Now, update contact with group
+			ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+					.withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+					.withValue(ContactsContract.CommonDataKinds.StructuredName.MIMETYPE, ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
+					.withValue(ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID, groupId)
+					.build())
 		}
 		contentResolver.applyBatch(ContactsContract.AUTHORITY, ops)
+	}
+
+	private fun getOrCreateContactsGroup(title: String, context: Context?): Long? {
+		var groupId: Long? = null
+
+		val whereQuery = "${ContactsContract.Groups.TITLE}='$title'"
+
+		context?.contentResolver?.query(ContactsContract.Groups.CONTENT_URI, arrayOf(ContactsContract.Groups._ID),whereQuery, null, null)?.let {
+			if (it.count > 0) {
+				it.moveToFirst()
+				groupId = it.getLong(it.getColumnIndex(ContactsContract.Groups._ID))
+			}
+			it.close()
+		}
+
+		//Need to create new group
+		if (groupId == null) {
+			val contentValues = ContentValues().apply {
+				put(ContactsContract.Groups.TITLE, title)
+			}
+			val groupUri = context?.contentResolver?.insert(ContactsContract.Groups.CONTENT_URI, contentValues)
+			groupId = ContentUris.parseId(groupUri)
+		}
+
+		return groupId
 	}
 }
