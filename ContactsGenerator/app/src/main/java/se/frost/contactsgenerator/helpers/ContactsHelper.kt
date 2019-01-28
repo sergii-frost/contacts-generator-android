@@ -15,9 +15,11 @@ import kotlin.collections.ArrayList
 
 object ContactsHelper {
 
+	val TAG = ContactsHelper::class.java.canonicalName
+
 	private val PROJECTION: Array<String> = arrayOf(
-			ContactsContract.Contacts._ID,
-			ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
+			ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID,
+			ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
 			ContactsContract.CommonDataKinds.Phone.NUMBER
 	)
 
@@ -26,14 +28,17 @@ object ContactsHelper {
 	private val GROUP_TITLE = "ContactsGenerator"
 
 	fun getAllContacts(context: Context?): List<ContactModel> {
+		val contentResolver = context?.contentResolver ?: return emptyList()
+		val generatedContactsIds = getContactsIdsWithinGroup(GROUP_TITLE, context)
 		val contacts: ArrayList<ContactModel> = ArrayList()
-		context?.contentResolver?.query(CONTENT_URI, PROJECTION, null, null, null)?.let {
+		contentResolver.query(CONTENT_URI, PROJECTION, null, null, null)?.let {
 			while (it.moveToNext()) {
 				val name = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY))
 				val phoneNumber = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+				val id = it.getLong(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID))
 
 				if (!TextUtils.isEmpty(phoneNumber)) {
-					contacts.add(ContactModel(name, phoneNumber))
+					contacts.add(ContactModel(id, name, phoneNumber, generatedContactsIds.contains(id)))
 				}
 			}
 			it.close()
@@ -42,12 +47,53 @@ object ContactsHelper {
 		return contacts
 	}
 
-	fun deleteAllContacts(context: Context?) {
-		context?.contentResolver?.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)?.let {
+	fun getGeneratedContacts(context: Context?): List<ContactModel> {
+		return getAllContactsWithinGroup(GROUP_TITLE, context)
+	}
+
+	private fun getAllContactsWithinGroup(groupTitle: String, context: Context?): List<ContactModel> {
+		val contentResolver = context?.contentResolver ?: return emptyList()
+		val contacts: ArrayList<ContactModel> = ArrayList()
+
+		val contactIds = getContactsIdsWithinGroup(groupTitle, context)
+		contactIds.forEach {
+			val whereContactClause = "${Phone.RAW_CONTACT_ID}=$it"
+
+			contentResolver.query(CONTENT_URI, null, whereContactClause, null, null)?.let { contactCursor ->
+				while (contactCursor.moveToNext()) {
+
+					val name = contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY))
+					val phoneNumber = contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+					val id = contactCursor.getLong(contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID))
+
+					if (!TextUtils.isEmpty(phoneNumber)) {
+						contacts.add(ContactModel(id, name, phoneNumber, true))
+					}
+				}
+				contactCursor.close()
+			}
+		}
+
+		return contacts
+	}
+
+	fun deleteGeneratedContacts(context: Context?) {
+		val contentResolver = context?.contentResolver ?: return
+		val generatedContactsIds = getContactsIdsWithinGroup(GROUP_TITLE, context)
+		val idsString = generatedContactsIds.joinToString { "$it" }
+
+		val projection = arrayOf(
+				ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID
+		)
+
+		val whereClause = "${ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID} in ($idsString)"
+
+		contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, whereClause, null, null)?.let {
 			while (it.moveToNext()) {
-				val lookupKey = it.getString(it.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
-				val uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey)
-				context.contentResolver.delete(uri, null, null)
+				val rawContactId = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID))
+				val uri = Uri.withAppendedPath(ContactsContract.RawContacts.CONTENT_URI, rawContactId)
+				contentResolver.delete(uri, null, null)
 			}
 			it.close()
 		}
@@ -61,7 +107,7 @@ object ContactsHelper {
 
 		val numbers = PhoneNumberFaker.generateNumbers(region, count, context)
 		return Array(count) {
-			ContactModel(String.format("%s %02d", region.toUpperCase(), it+1), numbers[it])
+			ContactModel(null, String.format("%s %02d", region.toUpperCase(), it+1), numbers[it], true)
 		}
 	}
 
@@ -126,4 +172,28 @@ object ContactsHelper {
 
 		return groupId
 	}
+
+	private fun getContactsIdsWithinGroup(groupTitle: String, context: Context?): List<Long> {
+		val contentResolver = context?.contentResolver ?: return emptyList()
+		val groupId = getOrCreateContactsGroup(groupTitle, context) ?: return emptyList()
+
+		val projection = arrayOf(
+				ContactsContract.CommonDataKinds.GroupMembership.RAW_CONTACT_ID,
+				ContactsContract.Data.DISPLAY_NAME
+		)
+
+		val whereGroupClause = "${ContactsContract.CommonDataKinds.GroupMembership.GROUP_ROW_ID}=$groupId " +
+				"AND ${ContactsContract.CommonDataKinds.GroupMembership.MIMETYPE}='${ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE}'"
+
+		val contactsIds: ArrayList<Long> = ArrayList()
+		contentResolver.query(ContactsContract.Data.CONTENT_URI, projection, whereGroupClause, null, null)?.let { groupCursor ->
+			while (groupCursor.moveToNext()) {
+				contactsIds.add(groupCursor.getLong(groupCursor.getColumnIndex(ContactsContract.CommonDataKinds.GroupMembership.RAW_CONTACT_ID)))
+			}
+			groupCursor.close()
+		}
+
+		return contactsIds
+	}
+
 }

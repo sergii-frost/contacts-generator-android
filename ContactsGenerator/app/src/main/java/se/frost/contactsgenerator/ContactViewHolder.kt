@@ -1,6 +1,7 @@
 package se.frost.contactsgenerator
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.list_item_contact.view.*
 import se.frost.contactsgenerator.models.ContactModel
@@ -12,6 +13,7 @@ class ContactViewHolder(parentView: ViewGroup?) : SmartViewHolder<ContactModel>(
 		item?.let {
 			itemView.contactName.text = it.name
 			itemView.contactNumber.text = it.phone
+			itemView.generatedMarkerImageView.visibility = (if (it.isGenerated) View.VISIBLE else View.GONE)
 		}
 	}
 }

@@ -83,7 +83,8 @@ class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 			listener?.addContacts()
 		}
 		deleteContactsButton.setOnClickListener {
-			ContactsHelper.deleteAllContacts(context)
+			ContactsHelper.deleteGeneratedContacts(context)
+			updateWithData()
 		}
 	}
 
@@ -128,8 +129,10 @@ class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 		}
 
 		countriesMap.entries.forEach {
-			countryContactsList.add(CountryContactsModel(it.key, it.value))
+			countryContactsList.add(CountryContactsModel(it.key, it.value.apply { sortBy { contactModel -> contactModel.name } }))
 		}
+
+		countryContactsList.sortByDescending { it.contacts.size }
 
 		return countryContactsList
 	}
