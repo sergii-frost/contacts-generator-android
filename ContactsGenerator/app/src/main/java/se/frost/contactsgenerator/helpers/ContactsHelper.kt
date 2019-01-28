@@ -6,7 +6,11 @@ import android.provider.ContactsContract
 import android.text.TextUtils
 import se.frost.contactsgenerator.models.ContactModel
 import java.lang.IllegalArgumentException
-import java.util.*
+import android.provider.ContactsContract.CommonDataKinds.Phone
+import android.content.ContentProviderOperation
+import android.content.ContentUris
+import android.content.ContentValues
+import kotlin.collections.ArrayList
 
 
 object ContactsHelper {
@@ -60,6 +64,30 @@ object ContactsHelper {
 	}
 
 	fun addContacts(contacts: Array<ContactModel>, context: Context?) {
-		//TODO: implement
+		val ops = ArrayList<ContentProviderOperation>()
+		val contentResolver = context?.contentResolver ?: return
+		contacts.forEach {
+			//First, insert new contact and get its contact id
+			val contentValues = ContentValues().apply {
+				put(ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY, it.name)
+				put(ContactsContract.RawContacts.DISPLAY_NAME_ALTERNATIVE, it.name)
+			}
+			val contactId = ContentUris.parseId(contentResolver.insert(ContactsContract.RawContacts.CONTENT_URI, contentValues))
+
+			//Now, update contact with name and phone number
+			ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+					.withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+					.withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+					.withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, it.name)
+					.build())
+
+			ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+					.withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+					.withValue(ContactsContract.Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE)
+					.withValue(Phone.NUMBER, it.phone)
+					.withValue(Phone.TYPE, Phone.TYPE_MOBILE)
+					.build())
+		}
+		contentResolver.applyBatch(ContactsContract.AUTHORITY, ops)
 	}
 }
