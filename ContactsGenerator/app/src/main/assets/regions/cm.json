@@ -1,18 +1,18 @@
 {
   "phones": [
-    "+237 745####", /*mobile, MTN Cameroon*/
-    "+237 746####", /*mobile, MTN Cameroon*/
-    "+237 747####", /*mobile, MTN Cameroon*/
-    "+237 748####", /*mobile, MTN Cameroon*/
-    "+237 749####", /*mobile, MTN Cameroon*/
-    "+237 75#####", /*mobile, MTN Cameroon*/
-    "+237 77#####", /*mobile, MTN Cameroon*/
-    "+237 940####", /*mobile, Orange Cameroon*/
-    "+237 941####", /*mobile, Orange Cameroon*/
-    "+237 942####", /*mobile, Orange Cameroon*/
-    "+237 943####", /*mobile, Orange Cameroon*/
-    "+237 944####", /*mobile, Orange Cameroon*/
-    "+237 96#####", /*mobile, Orange Cameroon*/
-    "+237 99#####" /*mobile, Orange Cameroon*/
+    "+237 745 #####", /*mobile, MTN Cameroon*/
+    "+237 746 #####", /*mobile, MTN Cameroon*/
+    "+237 747 #####", /*mobile, MTN Cameroon*/
+    "+237 748 #####", /*mobile, MTN Cameroon*/
+    "+237 749 #####", /*mobile, MTN Cameroon*/
+    "+237 75# #####", /*mobile, MTN Cameroon*/
+    "+237 77# #####", /*mobile, MTN Cameroon*/
+    "+237 940 #####", /*mobile, Orange Cameroon*/
+    "+237 941 #####", /*mobile, Orange Cameroon*/
+    "+237 942 #####", /*mobile, Orange Cameroon*/
+    "+237 943 #####", /*mobile, Orange Cameroon*/
+    "+237 944 #####", /*mobile, Orange Cameroon*/
+    "+237 96# #####", /*mobile, Orange Cameroon*/
+    "+237 99# #####" /*mobile, Orange Cameroon*/
   ]
 }
