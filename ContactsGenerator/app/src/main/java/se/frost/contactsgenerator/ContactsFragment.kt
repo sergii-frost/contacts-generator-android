@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import se.frost.contactsgenerator.helpers.ContactsHelper
@@ -18,7 +18,7 @@ import smartadapter.SmartRecyclerAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ContactsFragment : Fragment() {
+class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 	interface OnFragmentInteractionListener {
 		fun openCountryContacts(model: CountryContactsModel)
@@ -66,9 +66,16 @@ class ContactsFragment : Fragment() {
 		listener = null
 	}
 
+	override fun onRefresh() {
+		refreshContactsLayout.isRefreshing = true
+		updateWithData()
+		refreshContactsLayout.isRefreshing = false
+	}
+
 	private fun initUI() {
 		initButtons()
 		initRecyclerView()
+		initSwipeToRefreshLayout()
 	}
 
 	private fun initButtons() {
@@ -89,6 +96,10 @@ class ContactsFragment : Fragment() {
 					listener?.openCountryContacts(countryContacts[position])
 				}
 				.into(contactsRecyclerView)
+	}
+
+	private fun initSwipeToRefreshLayout() {
+		refreshContactsLayout.setOnRefreshListener(this)
 	}
 
 	private fun updateWithData() {

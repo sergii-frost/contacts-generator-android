@@ -5,12 +5,19 @@
 	android:layout_height="match_parent"
 	android:background="@android:color/white">
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/contactsRecyclerView"
+	<android.support.v4.widget.SwipeRefreshLayout
+		android:id="@+id/refreshContactsLayout"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		app:layout_constraintBottom_toTopOf="@+id/buttonsBarrier"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent">
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/contactsRecyclerView"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" />
+
+	</android.support.v4.widget.SwipeRefreshLayout>
 
 	<android.support.constraint.Barrier
 		android:id="@+id/buttonsBarrier"
