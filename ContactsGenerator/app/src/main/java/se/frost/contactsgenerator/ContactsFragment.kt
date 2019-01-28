@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import se.frost.contactsgenerator.helpers.ContactsHelper
@@ -48,6 +49,10 @@ class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		initUI()
+	}
+
+	override fun onResume() {
+		super.onResume()
 		updateWithData()
 	}
 
@@ -83,8 +88,9 @@ class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 			listener?.addContacts()
 		}
 		deleteContactsButton.setOnClickListener {
-			ContactsHelper.deleteGeneratedContacts(context)
+			val count = ContactsHelper.deleteGeneratedContacts(context)
 			updateWithData()
+			Toast.makeText(context, String.format(getString(R.string.message_x_contacts_deleted_successfully), count), Toast.LENGTH_SHORT).show()
 		}
 	}
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_add_contacts.*
 import se.frost.contactsgenerator.extensions.toFlagEmoji
 import se.frost.contactsgenerator.helpers.ContactsHelper
@@ -70,6 +71,8 @@ class AddContactsFragment : Fragment() {
 	private fun initButtons() {
 		addButton.setOnClickListener {
 			ContactsHelper.addContacts(generatedContacts, context)
+			Toast.makeText(context, String.format(getString(R.string.message_x_contacts_added_successfully), generatedContacts.size), Toast.LENGTH_SHORT).show()
+			generatedContacts = emptyArray()
 		}
 		generateButton.setOnClickListener {
 			val region = regions?.get(regionSpinner.selectedItemPosition) ?: return@setOnClickListener

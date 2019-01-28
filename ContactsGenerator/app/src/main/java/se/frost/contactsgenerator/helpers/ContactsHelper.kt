@@ -78,8 +78,9 @@ object ContactsHelper {
 		return contacts
 	}
 
-	fun deleteGeneratedContacts(context: Context?) {
-		val contentResolver = context?.contentResolver ?: return
+	fun deleteGeneratedContacts(context: Context?): Int {
+		var count = 0
+		val contentResolver = context?.contentResolver ?: return 0
 		val generatedContactsIds = getContactsIdsWithinGroup(GROUP_TITLE, context)
 		val idsString = generatedContactsIds.joinToString { "$it" }
 
@@ -91,12 +92,15 @@ object ContactsHelper {
 
 		contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, whereClause, null, null)?.let {
 			while (it.moveToNext()) {
+				count++
 				val rawContactId = it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID))
 				val uri = Uri.withAppendedPath(ContactsContract.RawContacts.CONTENT_URI, rawContactId)
 				contentResolver.delete(uri, null, null)
 			}
 			it.close()
 		}
+
+		return count
 	}
 
 	@Throws(IllegalArgumentException::class)

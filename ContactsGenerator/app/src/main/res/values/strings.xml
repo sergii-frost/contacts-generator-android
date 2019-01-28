@@ -6,4 +6,6 @@
     <string name="button_add_contacts">Add contacts</string>
     <string name="button_delete_all_contacts">Delete all contacts</string>
     <string name="button_generate_contacts">Generate</string>
+    <string name="message_x_contacts_added_successfully">%d contacts added successfully</string>
+    <string name="message_x_contacts_deleted_successfully">%d contacts deleted successfully</string>
 </resources>
