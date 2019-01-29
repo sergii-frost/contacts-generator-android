@@ -35,7 +35,7 @@ class AddContactsFragment : Fragment() {
 	private val regions by lazy { PhoneNumberFaker.getSupportedRegions(context) }
 
 	private val amounts by lazy {
-		Array(100) { it }
+		Array(100) { it+1 }
 	}
 
 	private var adapter: SmartRecyclerAdapter? = null
@@ -62,11 +62,17 @@ class AddContactsFragment : Fragment() {
 	}
 
 	private fun initSpinners() {
-		val readableRegions = regions?.map { "${it.toFlagEmoji()} ${Locale("", it).displayCountry}" }?.toMutableList() ?: return
-		regionSpinner.adapter = ArrayAdapter<String>(context ,android.R.layout.simple_spinner_item, readableRegions)
+		val safeContext = context ?: return
+
+		val readableRegions = regions?.
+				sortedBy { Locale("", it).displayCountry }?.
+				map { "${it.toFlagEmoji()} ${Locale("", it).displayCountry}" }?.
+				toMutableList() ?: return
+
+		regionSpinner.adapter = ArrayAdapter<String>(safeContext,android.R.layout.simple_spinner_item, readableRegions)
 				.apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
 
-		amountSpinner.adapter = ArrayAdapter<Int>(context ,android.R.layout.simple_spinner_item, amounts)
+		amountSpinner.adapter = ArrayAdapter<Int>(safeContext ,android.R.layout.simple_spinner_item, amounts)
 				.apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
 	}
 
