@@ -1,5 +1,10 @@
+![App logo](https://github.com/sergii-frost/contacts-generator-android/blob/master/ContactsGenerator/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png?raw=true)
+
 # contacts-generator-android
 Util app which will help generating contacts for Address Book in order to get valid international numbers from different countries among contacts
+
+<img src="https://github.com/sergii-frost/contacts-generator-android/blob/master/assets/countries_list.png?raw=true" width="300">
+<img src="https://github.com/sergii-frost/contacts-generator-android/blob/master/assets/add_contacts.png?raw=true" width="300">
 
 ### Core package
 
