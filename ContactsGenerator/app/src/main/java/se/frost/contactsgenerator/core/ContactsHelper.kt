@@ -1,16 +1,14 @@
-package se.frost.contactsgenerator.helpers
+package se.frost.contactsgenerator.core
 
-import android.content.Context
-import android.net.Uri
-import android.provider.ContactsContract
-import android.text.TextUtils
-import se.frost.contactsgenerator.models.ContactModel
-import java.lang.IllegalArgumentException
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
-import kotlin.collections.ArrayList
+import android.content.Context
+import android.net.Uri
+import android.provider.ContactsContract
+import android.provider.ContactsContract.CommonDataKinds.Phone
+import android.text.TextUtils
+import se.frost.contactsgenerator.models.ContactModel
 
 
 object ContactsHelper {
@@ -118,7 +116,8 @@ object ContactsHelper {
 	fun addContacts(contacts: Array<ContactModel>, context: Context?) {
 		val contentResolver = context?.contentResolver ?: return
 		val ops = ArrayList<ContentProviderOperation>()
-		val groupId = getOrCreateContactsGroup(GROUP_TITLE, context) ?: return
+		val groupId = getOrCreateContactsGroup(GROUP_TITLE, context)
+				?: return
 		contacts.forEach {
 			//First, insert new contact and get its contact id
 			val contentValues = ContentValues().apply {
@@ -179,7 +178,8 @@ object ContactsHelper {
 
 	private fun getContactsIdsWithinGroup(groupTitle: String, context: Context?): List<Long> {
 		val contentResolver = context?.contentResolver ?: return emptyList()
-		val groupId = getOrCreateContactsGroup(groupTitle, context) ?: return emptyList()
+		val groupId = getOrCreateContactsGroup(groupTitle, context)
+				?: return emptyList()
 
 		val projection = arrayOf(
 				ContactsContract.CommonDataKinds.GroupMembership.RAW_CONTACT_ID,

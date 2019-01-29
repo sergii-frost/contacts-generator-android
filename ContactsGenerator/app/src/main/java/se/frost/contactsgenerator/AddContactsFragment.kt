@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_add_contacts.*
+import se.frost.contactsgenerator.core.ContactsHelper
+import se.frost.contactsgenerator.core.PhoneNumberFaker
 import se.frost.contactsgenerator.extensions.toFlagEmoji
-import se.frost.contactsgenerator.helpers.ContactsHelper
-import se.frost.contactsgenerator.helpers.PhoneNumberFaker
 import se.frost.contactsgenerator.models.ContactModel
 import smartadapter.SmartRecyclerAdapter
 import java.util.*

@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.fragment_contacts.*
-import se.frost.contactsgenerator.helpers.ContactsHelper
+import se.frost.contactsgenerator.core.ContactsHelper
 import se.frost.contactsgenerator.models.ContactModel
 import se.frost.contactsgenerator.models.CountryContactsModel
 import smartadapter.SmartRecyclerAdapter
