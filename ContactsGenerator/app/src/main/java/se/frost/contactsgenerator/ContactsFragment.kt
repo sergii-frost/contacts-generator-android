@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,13 @@ class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		initUI()
+	}
+
+	override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+		super.setUserVisibleHint(isVisibleToUser)
+		if (isVisibleToUser) {
+			updateWithData()
+		}
 	}
 
 	override fun onResume() {
@@ -110,6 +118,7 @@ class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 	}
 
 	private fun updateWithData() {
+		Log.d(TAG, "Update with data")
 		countryContacts = getCountryContacts(ContactsHelper.getAllContacts(context))
 		countriesAdapter?.setItems(countryContacts)
 	}
