@@ -1,8 +1,11 @@
 package se.frost.contactsgenerator
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import se.frost.contactsgenerator.extensions.FragmentTransition
+import se.frost.contactsgenerator.extensions.canNavigateBack
+import se.frost.contactsgenerator.extensions.getVisibleFragment
 import se.frost.contactsgenerator.extensions.initFragment
 import se.frost.contactsgenerator.helpers.PermissionsHelper
 import se.frost.contactsgenerator.models.CountryContactsModel
@@ -27,7 +30,23 @@ class MainActivity : AppCompatActivity(), ContactsPermissionsFragment.OnFragment
 		showAddContacts()
 	}
 
+	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+		when (item?.itemId) {
+			android.R.id.home -> {
+				onBackPressed()
+				return true
+			}
+		}
+		return super.onOptionsItemSelected(item)
+	}
+
 	private fun initFragments() {
+		supportFragmentManager.addOnBackStackChangedListener {
+			getVisibleFragment(R.id.content_frame)?.userVisibleHint = true
+			supportActionBar?.setDisplayHomeAsUpEnabled(canNavigateBack())
+			invalidateOptionsMenu()
+		}
+
 		if (PermissionsHelper.instance.hasContactsPermissions(applicationContext)) {
 			showContactsUI()
 		} else {
