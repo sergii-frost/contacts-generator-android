@@ -8,7 +8,6 @@ import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.text.TextUtils
-import se.frost.contactsgenerator.features.contacts.ContactModel
 
 
 object ContactsHelper {

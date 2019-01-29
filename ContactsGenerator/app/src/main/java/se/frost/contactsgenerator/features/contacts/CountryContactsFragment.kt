@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_country_contacts.*
 import se.frost.contactsgenerator.R
+import se.frost.contactsgenerator.core.ContactModel
 import se.frost.contactsgenerator.features.countries.CountryContactsModel
 import smartadapter.SmartRecyclerAdapter
 

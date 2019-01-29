@@ -1,7 +1,7 @@
 package se.frost.contactsgenerator.features.countries
 
+import se.frost.contactsgenerator.core.ContactModel
 import se.frost.contactsgenerator.extensions.toFlagEmoji
-import se.frost.contactsgenerator.features.contacts.ContactModel
 import java.io.Serializable
 import java.util.*
 

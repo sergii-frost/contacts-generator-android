@@ -14,8 +14,8 @@ import android.widget.Toast
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.fragment_contacts.*
 import se.frost.contactsgenerator.R
+import se.frost.contactsgenerator.core.ContactModel
 import se.frost.contactsgenerator.core.ContactsHelper
-import se.frost.contactsgenerator.features.contacts.ContactModel
 import smartadapter.SmartRecyclerAdapter
 import java.util.*
 import kotlin.collections.ArrayList
