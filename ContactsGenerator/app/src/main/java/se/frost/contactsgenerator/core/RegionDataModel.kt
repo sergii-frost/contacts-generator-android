@@ -1,3 +1,3 @@
-package se.frost.contactsgenerator.models
+package se.frost.contactsgenerator.core
 
 data class RegionDataModel(val phones: ArrayList<String>)

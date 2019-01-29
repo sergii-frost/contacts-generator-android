@@ -8,7 +8,7 @@ import android.net.Uri
 import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.text.TextUtils
-import se.frost.contactsgenerator.models.ContactModel
+import se.frost.contactsgenerator.features.contacts.ContactModel
 
 
 object ContactsHelper {
@@ -109,7 +109,7 @@ object ContactsHelper {
 
 		val numbers = PhoneNumberFaker.generateNumbers(region, count, context)
 		return Array(count) {
-			ContactModel(null, String.format("%s %02d", region.toUpperCase(), it+1), numbers[it], true)
+			ContactModel(null, String.format("%s %02d", region.toUpperCase(), it + 1), numbers[it], true)
 		}
 	}
 

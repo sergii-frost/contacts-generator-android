@@ -1,4 +1,4 @@
-package se.frost.contactsgenerator
+package se.frost.contactsgenerator.features.contacts
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_country_contacts.*
-import se.frost.contactsgenerator.models.ContactModel
-import se.frost.contactsgenerator.models.CountryContactsModel
+import se.frost.contactsgenerator.R
+import se.frost.contactsgenerator.features.countries.CountryContactsModel
 import smartadapter.SmartRecyclerAdapter
 
 class CountryContactsFragment: Fragment() {

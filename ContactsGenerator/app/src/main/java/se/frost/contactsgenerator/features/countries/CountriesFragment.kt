@@ -1,4 +1,4 @@
-package se.frost.contactsgenerator
+package se.frost.contactsgenerator.features.countries
 
 import android.app.Activity
 import android.content.Context
@@ -13,14 +13,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.fragment_contacts.*
+import se.frost.contactsgenerator.R
 import se.frost.contactsgenerator.core.ContactsHelper
-import se.frost.contactsgenerator.models.ContactModel
-import se.frost.contactsgenerator.models.CountryContactsModel
+import se.frost.contactsgenerator.features.contacts.ContactModel
 import smartadapter.SmartRecyclerAdapter
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class CountriesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
 	interface OnFragmentInteractionListener {
 		fun openCountryContacts(model: CountryContactsModel)
@@ -30,11 +30,11 @@ class ContactsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 	private var countryContacts: List<CountryContactsModel> = ArrayList()
 
 	companion object {
-		val TAG = ContactsFragment::class.java.canonicalName
+		val TAG = CountriesFragment::class.java.canonicalName
 
-		fun newInstance(): ContactsFragment {
+		fun newInstance(): CountriesFragment {
 			val args = Bundle()
-			return ContactsFragment().apply {
+			return CountriesFragment().apply {
 				arguments = args
 			}
 		}

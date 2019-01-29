@@ -1,4 +1,4 @@
-package se.frost.contactsgenerator.models
+package se.frost.contactsgenerator.features.contacts
 
 import java.io.Serializable
 

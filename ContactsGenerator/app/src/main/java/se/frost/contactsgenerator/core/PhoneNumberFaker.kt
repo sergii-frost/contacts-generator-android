@@ -2,7 +2,6 @@ package se.frost.contactsgenerator.core
 
 import android.content.Context
 import com.google.gson.Gson
-import se.frost.contactsgenerator.models.RegionDataModel
 import java.io.FileNotFoundException
 
 

@@ -1,4 +1,4 @@
-package se.frost.contactsgenerator
+package se.frost.contactsgenerator.features
 
 import android.app.Activity
 import android.content.Context
@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_contacts_permissions.*
+import se.frost.contactsgenerator.R
 import se.frost.contactsgenerator.helpers.PermissionsAction
 import se.frost.contactsgenerator.helpers.PermissionsHelper
 

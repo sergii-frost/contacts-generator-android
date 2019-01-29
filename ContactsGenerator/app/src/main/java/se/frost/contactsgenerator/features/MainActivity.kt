@@ -1,16 +1,19 @@
-package se.frost.contactsgenerator
+package se.frost.contactsgenerator.features
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import se.frost.contactsgenerator.R
 import se.frost.contactsgenerator.extensions.FragmentTransition
 import se.frost.contactsgenerator.extensions.canNavigateBack
 import se.frost.contactsgenerator.extensions.getVisibleFragment
 import se.frost.contactsgenerator.extensions.initFragment
+import se.frost.contactsgenerator.features.contacts.CountryContactsFragment
+import se.frost.contactsgenerator.features.countries.CountriesFragment
+import se.frost.contactsgenerator.features.countries.CountryContactsModel
 import se.frost.contactsgenerator.helpers.PermissionsHelper
-import se.frost.contactsgenerator.models.CountryContactsModel
 
-class MainActivity : AppCompatActivity(), ContactsPermissionsFragment.OnFragmentInterationListener, ContactsFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), ContactsPermissionsFragment.OnFragmentInterationListener, CountriesFragment.OnFragmentInteractionListener {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity(), ContactsPermissionsFragment.OnFragment
 	}
 
 	private fun showContactsUI() {
-		initFragment(ContactsFragment.newInstance(), ContactsFragment.TAG, FragmentTransition.FRAGMENT_REPLACE, R.id.content_frame)
+		initFragment(CountriesFragment.newInstance(), CountriesFragment.TAG, FragmentTransition.FRAGMENT_REPLACE, R.id.content_frame)
 	}
 
 	private fun showCountryContacts(model: CountryContactsModel) {
