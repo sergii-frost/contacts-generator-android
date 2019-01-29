@@ -132,7 +132,7 @@ class CountriesFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 			phoneNumberUtil.isPossibleNumber(it.phone, null)
 		}.forEach {
 			val phoneNumber = phoneNumberUtil.parse(it.phone, null)
-			phoneNumber?.let {number ->
+			phoneNumber?.let { number ->
 				phoneNumberUtil.getRegionCodeForNumber(number)?.let { region ->
 					if (countriesMap.containsKey(region) && countriesMap.contains(region)) {
 						countriesMap[region]?.add(it)

@@ -156,7 +156,7 @@ object ContactsHelper {
 
 		val whereQuery = "${ContactsContract.Groups.TITLE}='$title'"
 
-		context?.contentResolver?.query(ContactsContract.Groups.CONTENT_URI, arrayOf(ContactsContract.Groups._ID),whereQuery, null, null)?.let {
+		context?.contentResolver?.query(ContactsContract.Groups.CONTENT_URI, arrayOf(ContactsContract.Groups._ID), whereQuery, null, null)?.let {
 			if (it.count > 0) {
 				it.moveToFirst()
 				groupId = it.getLong(it.getColumnIndex(ContactsContract.Groups._ID))
